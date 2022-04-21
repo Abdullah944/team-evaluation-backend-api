@@ -1,4 +1,4 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet  # ?have all the CRUD in it.
 from .modelsSemester import Semester
 from .serializersSemester import SemesterViewSerializer
 
