@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "djoser",
     "semester",
+    "project",
+    "team",
 ]
 
 MIDDLEWARE = [
