@@ -5,6 +5,8 @@ from semester.viewsSemester import SemesterViewSet
 from project.viewsProject import ProjectViewSet
 from team.viewsTeam import TeamViewSet
 from criteria.viewsCriteria import CriteriaViewSet
+from evaluation.viewsEvaluation import EvaluationViewSet
+from judge.viewsJudge import JudgeViewSet
 
 # ? SimpleRouter
 from rest_framework.routers import (
@@ -20,6 +22,10 @@ router.register("project", ProjectViewSet)
 router.register("team", TeamViewSet)
 # ? Criteria
 router.register("criteria", CriteriaViewSet)
+# ? Evaluation
+router.register("evaluation", EvaluationViewSet)
+# ? Judge
+router.register("judge", JudgeViewSet)
 
 urlpatterns = [
     # ? Auth / djoser:
