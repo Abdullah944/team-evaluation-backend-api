@@ -1,9 +1,8 @@
 from rest_framework import serializers
-
 from criteria.serializersCriteria import CriteriaViewSerializer
 from .modelsProject import Project
 from team.serializersTeam import TeamViewSerializer
-from criteria.serializersCriteria import CriteriaViewSerializer
+from evaluation.serializersEvaluation import EvaluationSerializer
 
 # ? populate:
 class ProjectListViewSerializer(serializers.ModelSerializer):
@@ -13,6 +12,7 @@ class ProjectListViewSerializer(serializers.ModelSerializer):
     criteria = CriteriaViewSerializer(
         many=True,
     )
+    linkId = EvaluationSerializer(read_only=True)  # ? link for the projects
 
     class Meta:
         model = Project
