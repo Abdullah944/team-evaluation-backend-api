@@ -3,6 +3,6 @@ from .serializersEvaluation import EvaluationSerializer
 from .modelsEvaluation import Evaluation
 
 
-class Evaluation(ModelViewSet):
+class EvaluationViewSet(ModelViewSet):
     queryset = Evaluation.objects.all()
     serializer_class = EvaluationSerializer
