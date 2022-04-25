@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from judge.modelsJudge import Judge
 from .modelsEvaluation import Evaluation  # ? from the model grab the class.
 from judge.serializersJudge import JudgeSerializer
 
