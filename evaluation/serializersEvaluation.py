@@ -46,6 +46,7 @@ class EvaluationSerializer(serializers.ModelSerializer):
         allRes2 = []
         responseObject = {"0": {"criteria": []}, "judge": 0}
         for i in [1, 2]:
+            # responseObject = {"0":{'criteria':[]}, "judge":0}
             for judge in res:
                 for team in judge:
                     if team["team_id"] in responseObject.keys():
@@ -67,13 +68,20 @@ class EvaluationSerializer(serializers.ModelSerializer):
                         }
                     for index, criteria in enumerate(team["criteria"]):
                         if "criteria" in responseObject[team["team_id"]].keys():
-                            if {**criteria, "criteria_score": 0} in [
-                                {**item, "criteria_score": 0}
+                            if {
+                                **criteria,
+                                "criteria_score": 0,
+                                "avg": 0,
+                                "avg_weight": 0,
+                            } in [
+                                {**item, "criteria_score": 0, "avg": 0, "avg_weight": 0}
                                 for item in responseObject[team["team_id"]]["criteria"]
                             ]:
-                                responseObject[team["team_id"]]["criteria"][index][
-                                    "criteria_score"
-                                ].append(criteria["criteria_score"])
+
+                                if i == 1:
+                                    responseObject[team["team_id"]]["criteria"][index][
+                                        "criteria_score"
+                                    ].append(criteria["criteria_score"])
                                 responseObject[team["team_id"]]["criteria"][index][
                                     "avg"
                                 ] = round(
@@ -187,6 +195,48 @@ class EvaluationSerializer(serializers.ModelSerializer):
                                             ],
                                         },
                                     }
+                                    allRes[criteria["criteria_id"]]["avgT"] = round(
+                                        (
+                                            sum(allRes[criteria["criteria_id"]]["avg"])
+                                            / len(
+                                                allRes[criteria["criteria_id"]]["avg"]
+                                            )
+                                        ),
+                                        2,
+                                    )
+                                    allRes[criteria["criteria_id"]][
+                                        "avg_weightT"
+                                    ] = round(
+                                        (
+                                            sum(
+                                                allRes[criteria["criteria_id"]][
+                                                    "avg_weight"
+                                                ]
+                                            )
+                                            / len(
+                                                allRes[criteria["criteria_id"]][
+                                                    "avg_weight"
+                                                ]
+                                            )
+                                        ),
+                                        2,
+                                    )
+
+                                    allRes2.append(
+                                        {
+                                            "criteria_id": criteria["criteria_id"],
+                                            "criteria_name": criteria["criteria_name"],
+                                            "criteria_weight": criteria[
+                                                "criteria_weight"
+                                            ],
+                                            "avg": allRes[criteria["criteria_id"]][
+                                                "avgT"
+                                            ],
+                                            "avg_weight": allRes[
+                                                criteria["criteria_id"]
+                                            ]["avg_weightT"],
+                                        }
+                                    )
 
                             else:
                                 # if(len(res)==1):
@@ -194,6 +244,7 @@ class EvaluationSerializer(serializers.ModelSerializer):
                                 #     responseObject['0']['criteria'] = responseObject[team['team_id']]['criteria']
 
                                 # else:
+
                                 responseObject[team["team_id"]]["criteria"].append(
                                     {
                                         **criteria,
@@ -236,5 +287,4 @@ class EvaluationSerializer(serializers.ModelSerializer):
                 responseObject["0"]["criteria"] = allRes2[
                     -responseObject["t_criteria"] :
                 ]
-
         return responseObject
