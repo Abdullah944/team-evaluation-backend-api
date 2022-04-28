@@ -4,11 +4,12 @@ from .modelsProject import Project
 from team.serializersTeam import TeamViewSerializer
 from evaluation.serializersEvaluation import EvaluationSerializer
 
-# ? populate:
+# ? How the modal / scemah info shown(serializer):
+# ? populate(give me all project):
 class ProjectListViewSerializer(serializers.ModelSerializer):
     team = TeamViewSerializer(
         many=True, read_only=True
-    )  # ? show obj by obj and not changable.
+    )  # ? show obj by obj and not changable.  / read_only = unchangeable / many= True = you tell drf that queryset contains mutiple items (a list of items).
     criteria = CriteriaViewSerializer(
         many=True,
     )
@@ -19,7 +20,7 @@ class ProjectListViewSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-# ? give me only id: when you don't mention the criteria it comes with id by default:
+# ? give me only (id): because when you don't mention the criteria it comes with id by default:
 class ProjectViewSerializer(serializers.ModelSerializer):
     team = TeamViewSerializer(
         many=True, read_only=True

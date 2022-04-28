@@ -1,6 +1,6 @@
 from pathlib import Path
 
-# ? Auth / djoser:
+# ? Auth / djoser setting add on:
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,10 +28,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # ? Auth / djoser:
+    # ? Auth / djoser setting add on:
     "corsheaders",
     "rest_framework",
     "djoser",
+    # ? created app's:
     "semester",
     "project",
     "team",
@@ -51,13 +52,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# ? Auth / djoser:
+# ? Auth / djoser setting add on:
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
-# ? Auth / djoser:
+# ? Auth / djoser setting add on:
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
