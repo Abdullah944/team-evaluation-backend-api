@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-# ? APPS:
+# ? Views / controllers => functions:
 from semester.viewsSemester import SemesterViewSet
 from project.viewsProject import ProjectViewSet
 from team.viewsTeam import TeamViewSet
@@ -13,16 +13,17 @@ from rest_framework.routers import (
     SimpleRouter,
 )  # ?you have to use it for the modal in the view & without / at th end
 
-# ? semester
+# ? declare Simple Router:
 router = SimpleRouter()
+# ? Semester Router:
 router.register("semester", SemesterViewSet)
-# ? project
+# ? Project Router:
 router.register("project", ProjectViewSet)
-# ? team
+# ? Team Router:
 router.register("team", TeamViewSet)
-# ? Criteria
+# ? Criteria Router:
 router.register("criteria", CriteriaViewSet)
-# ? Evaluation
+# ? Evaluation Router:
 router.register("evaluation", EvaluationViewSet)
 # ? Judge
 router.register("judge", JudgeViewSet)
@@ -31,6 +32,6 @@ urlpatterns = [
     # ? Auth / djoser:
     path("", include("djoser.urls")),
     path("", include("djoser.urls.jwt")),
-    # ? semester / project / team / criteria:
+    # ? semester / project / team / criteria / evaluation/ judge => path's:
     path("", include(router.urls)),
 ]

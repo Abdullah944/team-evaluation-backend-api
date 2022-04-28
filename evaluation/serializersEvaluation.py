@@ -3,6 +3,8 @@ from rest_framework import serializers
 from .modelsEvaluation import Evaluation  # ? from the model grab the class.
 from judge.serializersJudge import JudgeSerializer
 
+# ? How the modal / scemah info shown(serializer):
+
 
 class EvaluationSerializer(serializers.ModelSerializer):
     judge = JudgeSerializer(many=True, read_only=True)
@@ -12,14 +14,20 @@ class EvaluationSerializer(serializers.ModelSerializer):
         model = Evaluation
         fields = "__all__"
 
+    # ? get average function:
     def get_avg(self, obj: Evaluation):
 
+        # ? declartions:
         res = []
         teams = []
         judgeObjec = {}
         criteriaOfJudge = []
+
+        # ? make for loop in all judges:
         for judge in obj.judge.all():
             judgeObjec = {"judge_id": judge.id, "judge_name": judge.name}
+
+            # ? inside it make for loop to get the team grade:
             for team in judge.grade:
                 for criteria in team["grade"]:
                     criteriaOfJudge.append(
@@ -239,11 +247,6 @@ class EvaluationSerializer(serializers.ModelSerializer):
                                     )
 
                             else:
-                                # if(len(res)==1):
-                                #     responseObject[team['team_id']]['criteria'].append({**criteria, "criteria_score":[criteria['criteria_score']], 'avg':criteria['criteria_score'], 'avg_weight':round(((criteria['criteria_score']*criteria['criteria_weight'])/100),2)})
-                                #     responseObject['0']['criteria'] = responseObject[team['team_id']]['criteria']
-
-                                # else:
 
                                 responseObject[team["team_id"]]["criteria"].append(
                                     {
@@ -251,7 +254,6 @@ class EvaluationSerializer(serializers.ModelSerializer):
                                         "criteria_score": [criteria["criteria_score"]],
                                     }
                                 )
-                                # responseObject['0']['criteria'] = responseObject[team['team_id']]['criteria']
 
                         else:
                             responseObject[team["team_id"]]["criteria"] = [
@@ -260,9 +262,6 @@ class EvaluationSerializer(serializers.ModelSerializer):
                                     "criteria_score": [criteria["criteria_score"]],
                                 }
                             ]
-                            # if(len(res)==1):
-                            #     responseObject[team['team_id']]['criteria'] = [{**criteria, "criteria_score":[criteria['criteria_score']], 'avg':criteria['criteria_score'], 'avg_weight':round(((criteria['criteria_score']*criteria['criteria_weight'])/100),2)}]
-                            #     responseObject['0']['criteria'] = responseObject[team['team_id']]['criteria']
 
                     responseObject["t_criteria"] = len(team["criteria"])
                     if len(avgWeight) > 0:
@@ -271,7 +270,7 @@ class EvaluationSerializer(serializers.ModelSerializer):
                         )
                         avgWeight = []
                 responseObject["judge"] = len(res)
-                # if(len(res) !=1):
+
                 responseObject["0"]["total"] = round(
                     (
                         sum(

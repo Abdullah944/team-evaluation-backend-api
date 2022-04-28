@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from .modelsJudge import Judge
 
-# ? CREATE
+# ? How the modal / scemah info shown(serializer):
+
+# ? CREATE:
 class JudgeCreateSerializer(serializers.ModelSerializer):
     grade = serializers.ReadOnlyField()
 
@@ -28,7 +30,7 @@ class JudgeCreateSerializer(serializers.ModelSerializer):
         validated_data["grade"] = teams
         return super().create(validated_data)
 
-    # ? SHOW
+    # ? SHOW:
 
 
 class JudgeSerializer(serializers.ModelSerializer):
